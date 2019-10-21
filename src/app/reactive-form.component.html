@@ -1,0 +1,143 @@
+<h4>1. Input Text validation</h4>
+<mat-form-field>
+  <mat-label>Enter Amount</mat-label>
+  <input matInput placeholder="Amount" 
+      [formControl]="amount" 
+      [errorStateMatcher]="esMatcher"
+      (change)="onAmountChange()">
+  <mat-hint>Indian Rupee</mat-hint>
+  <span matPrefix>INR&nbsp;</span>
+  <span matSuffix>.00</span>  
+  <mat-error *ngIf="amount.hasError('required')">
+    Amount is required.
+  </mat-error>  
+  <mat-error *ngIf="amount.hasError('min')">
+    Minimum Amount is 100.
+  </mat-error>  
+  <mat-error *ngIf="amount.hasError('max')">
+    Maximum Amount is 200.
+  </mat-error>        
+</mat-form-field>
+
+<h4>2. Textarea validation</h4>
+<mat-form-field>
+  <textarea matInput 
+      placeholder="Comment" 
+      [formControl]="commentFC" 
+      [errorStateMatcher]="esMatcher"
+      (change)="onCommentChange()">
+  </textarea>
+  <mat-hint align="end">{{commentFC.value?.length || 0}}/30</mat-hint>
+  <mat-error *ngIf="commentFC.hasError('required')">
+    Comment is required.
+  </mat-error>
+  <mat-error *ngIf="commentFC.hasError('maxlength')">
+    Max length is 30.
+  </mat-error>        
+</mat-form-field>
+
+<h4>3. Textarea autosize</h4>
+<mat-form-field>
+  <textarea matInput 
+      placeholder="Description" 
+      [formControl]="descFC" 
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="2"
+      cdkAutosizeMaxRows="5"
+      #autosize="cdkTextareaAutosize"
+      (change)="onDescChange()">
+  </textarea>
+  <mat-error *ngIf="descFC.hasError('required')">
+    Description is required.
+  </mat-error>
+</mat-form-field>
+
+<h4>4. resizeToFitContent() and Reset() test</h4>
+<div>
+  <mat-form-field [style.fontSize]="fontSize.value">
+    <textarea matInput 
+        placeholder="Content" 
+        [formControl]="contentFC" 
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="2"
+        cdkAutosizeMaxRows="5"
+        #cfcAutosize="cdkTextareaAutosize">
+    </textarea>
+  </mat-form-field>
+</div>
+<div>   
+  <button mat-raised-button (click)="resetTextAreaSize()">Reset Textarea Size</button>
+</div>
+<br/>
+<div>  
+  <mat-form-field>
+    <mat-label>Select Font size</mat-label>
+    <mat-select #fontSize value="15px" (selectionChange)="resizeTextArea()">
+      <mat-option value="10px">10px</mat-option>
+      <mat-option value="15px">15px</mat-option>
+      <mat-option value="20px">20px</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<h3>5. Person Reactive Form</h3>
+<form [formGroup]="personForm" (ngSubmit)="onFormSubmit()">
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="esMatcher">
+      <mat-error *ngIf="username.hasError('required')">
+        Username is required.
+      </mat-error>
+    </mat-form-field>  
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput type="password" formControlName="password" placeholder="Password" 
+         [errorStateMatcher]="esMatcher">
+      <mat-error *ngIf="password.hasError('required')">
+        Password is required.
+      </mat-error>
+    </mat-form-field>
+  </div>  
+  <div>
+    <mat-form-field>
+      <textarea matInput 
+          placeholder="Address" 
+          formControlName="address" 
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="4"          
+          [errorStateMatcher]="esMatcher">
+      </textarea>
+      <mat-error *ngIf="address.hasError('required')">
+        Comment is required.
+      </mat-error>
+      <mat-error *ngIf="address.hasError('maxlength')">
+        Max length is 100.
+      </mat-error>        
+    </mat-form-field>
+  </div>  
+  <div>
+    <mat-form-field>
+      <input matInput type="color" formControlName="favColor" placeholder="Favorite color">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>                
+      <input matInput type="date" formControlName="dob" placeholder="Date of birth">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput type="time" formControlName="tob" placeholder="Time of birth">
+    </mat-form-field>
+  </div>   
+  <div>
+    <mat-form-field>
+      <input matInput type="number" formControlName="age" placeholder="Age">
+    </mat-form-field>
+  </div>
+  <div>   
+    <button mat-raised-button>Submit</button>
+  </div>  
+</form>
